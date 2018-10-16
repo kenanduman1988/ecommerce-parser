@@ -1,16 +1,18 @@
 version: '3.7'
 services:
     db:
+        container-name: ecommerce-parser-db
         image: mysql
         command: ["--default-authentication-plugin=mysql_native_password"]
         ports:
             - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: 123qwe
             MYSQL_DATABASE: symfony
-            MYSQL_USER: symfony
-            MYSQL_PASSWORD: symfony
+            MYSQL_USER: ecommerce-parser
+            MYSQL_PASSWORD: 123qwe
     php:
+        container-name: ecommerce-parser-php
         build: ./php-fpm
         ports:
             - "9000:9000"
@@ -22,6 +24,7 @@ services:
         extra_hosts:
             - "docker.host:127.0.0.1"
     nginx:
+        container-name: ecommerce-parser-nginx
         build: ./nginx
         ports:
             - "80:80"
@@ -30,4 +33,11 @@ services:
         volumes:
             - ./logs/nginx:/var/log/nginx:cached
             - ./symfony:/var/www/symfony:cached
+    firefox:
+      container-name: ecommerce-parser-selenium
+      image: selenium/standalone-firefox-debug:3.14.0-dubnium
+      ports:
+        - "4444:4444"
+        - "5900:5900"
+        - "5000:5000"
 
