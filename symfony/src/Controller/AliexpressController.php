@@ -29,12 +29,18 @@ class AliexpressController extends AbstractController
         $driver->close();
 
         $xpath = $this->getXpath($content);
-        $lowPrice = $xpath->query("//span[@itemprop='lowPrice']")->item(0)->nodeValue;
-        $highPrice = $xpath->query("//span[@itemprop='highPrice']")->item(0)->nodeValue;
-        $currency = $xpath->query("//div[@class='p-price-content notranslate']//span[@class='p-symbol']")->item(0)->nodeValue;
-        $productName = $xpath->query("//h1[@class='product-name']")->item(0)->nodeValue;
 
+        $lowPriceQuery = $xpath->query("//span[@itemprop='lowPrice']");
+        $lowPrice = $lowPriceQuery->length > 0 ? $lowPriceQuery->item(0)->nodeValue : null;
 
+        $highPriceQuery = $xpath->query("//span[@itemprop='highPrice']");
+        $highPrice = $highPriceQuery->length > 0 ? $highPriceQuery->item(0)->nodeValue : null;
+
+        $currencyQuery = $xpath->query("//div[@class='p-price-content notranslate']//span[@class='p-symbol']");
+        $currency = $currencyQuery->length > 0 ? $currencyQuery->item(0)->nodeValue : null;
+
+        $productNameQuery = $xpath->query("//h1[@class='product-name']");
+        $productName = $productNameQuery->length > 0 ? $productNameQuery->item(0)->nodeValue : null;
 
         $colorListQuery = $xpath->query("//ul[@id='j-sku-list-1']/li");
         $colorList = [];
@@ -47,8 +53,6 @@ class AliexpressController extends AbstractController
         }, $colorList));
 
 
-
-
         $imageListQuery = $xpath->query("//ul[@id='j-image-thumb-list']/li/span/img");
         $imageList = [];
         /** @var \DOMElement $image */
@@ -58,8 +62,6 @@ class AliexpressController extends AbstractController
         $images = implode('&nbsp;', array_map(function ($image) {
             return "<img src='{$image}'>";
         }, $imageList));
-
-
 
         $sizeListQuery = $xpath->query("//ul[@id='j-sku-list-2']/li/a/span");
         $sizeList = [];
