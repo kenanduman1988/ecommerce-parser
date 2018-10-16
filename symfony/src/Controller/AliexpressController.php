@@ -26,6 +26,7 @@ class AliexpressController extends AbstractController
         $driver->get($url);
         sleep(3);
         $content = $driver->getPageSource();
+        $driver->close();
 
         $xpath = $this->getXpath($content);
         $lowPrice = $xpath->query("//span[@itemprop='lowPrice']")->item(0)->nodeValue;
@@ -82,7 +83,7 @@ class AliexpressController extends AbstractController
         {$images}
         ";
 
-        $driver->close();
+
 
 
         return new JsonResponse([
