@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ecommerce Parser!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Aliexpress Parser ✅</h1>
+    <h2>Input area</h2>
+    <input type="text" class="url" name="url" value="https://www.aliexpress.com/item/LALA-IKAI-Winter-Women-Wool-Long-Cardigan-Batwing-Sleeve-Sweaters-Hand-Knitted-Korean-Style-Open-Stitch/32835787820.html?s=p&ws_ab_test=searchweb0_0,searchweb201602_3_10065_10068_5726815_10059_10884_10887_10696_100031_10084_10083_5726915_10103_10618_10307,searchweb201603_60,ppcSwitch_0&algo_expid=318db4f4-17d2-4f15-9d5f-f81bd65eb07d-4&algo_pvid=318db4f4-17d2-4f15-9d5f-f81bd65eb07d&priceBeautifyAB=0">
+    <button class="get-results">Get Results</button>
+    <h2>Results area</h2>
+    <div class="results" style="height: 100%; min-width: 600px; min-height: 600px; border-width: 1px; border-style: dotted;">
+
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function sendToAPI() {
+            $('.results').html('Loading...');
+            $.getJSON('{{ path('aliexpress') }}', {
+                url: $('.url').val()
+            }, function(data) {
+                $('.results').html(data.html);
+            });
+        }
+        $(document).ready(function() {
+            $(document).on('click', '.get-results', function () {
+                sendToAPI();
+            });
+        });
+    </script>
+
+{% endblock %}

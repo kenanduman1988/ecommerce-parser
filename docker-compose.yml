@@ -35,7 +35,7 @@ services:
             - ./symfony:/var/www/symfony:cached
     firefox:
         container_name: ecommerce-parser-selenium
-        image: selenium/standalone-firefox-debug:3.14.0-dubnium
+        image: selenium/standalone-firefox-debug
         ports:
           - "4444:4444"
           - "5900:5900"
